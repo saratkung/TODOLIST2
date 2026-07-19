@@ -1,0 +1,101 @@
+.fc-wrap {
+  --fc-border-color: rgba(255, 255, 255, 0.08);
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: rgba(255, 255, 255, 0.04);
+  --fc-list-event-hover-bg-color: rgba(255, 255, 255, 0.05);
+  --fc-today-bg-color: rgba(37, 99, 235, 0.1);
+  --fc-event-border-color: transparent;
+  --fc-small-font-size: 0.75rem;
+  color: #ffffff;
+}
+
+.fc-wrap .fc {
+  font-family: var(--font-sans), Inter, sans-serif;
+}
+
+.fc-wrap .fc-toolbar-title {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.fc-wrap .fc-col-header-cell-cushion,
+.fc-wrap .fc-daygrid-day-number,
+.fc-wrap .fc-timegrid-slot-label-cushion,
+.fc-wrap .fc-list-day-text,
+.fc-wrap .fc-list-day-side-text {
+  color: #a1a1aa;
+  text-decoration: none;
+  font-size: 0.75rem;
+}
+
+.fc-wrap .fc-daygrid-day-frame {
+  border-radius: 14px;
+  margin: 1px;
+}
+
+.fc-wrap .fc-day-today .fc-daygrid-day-frame {
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.fc-wrap .fc-event {
+  border-radius: 8px;
+  padding: 1px 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  border: none;
+}
+
+.fc-wrap .fc-list {
+  border-color: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.fc-wrap .fc-list-event:hover td {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.fc-wrap .fc-list-table td {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.fc-wrap .fc-scrollgrid {
+  border-color: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.fc-wrap .fc-timegrid-slot-label,
+.fc-wrap .fc-timegrid-axis {
+  color: #a1a1aa;
+}
+
+.fc-wrap .fc-button {
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: #ffffff;
+  text-transform: none;
+  box-shadow: none;
+}
+
+.fc-wrap .fc-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.fc-wrap .fc-button-primary:not(:disabled).fc-button-active,
+.fc-wrap .fc-button-primary:not(:disabled):active {
+  background: #2563eb;
+  color: #fff;
+}
+
+.fc-wrap .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.fc-wrap .fc-list-empty {
+  background: transparent;
+  color: #a1a1aa;
+}
