@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useCallback, useRef, useSyncExternalStore } from "react";
 import { Bell } from "lucide-react";
 import { toast } from "sonner";
@@ -51,14 +52,21 @@ export function DashboardHeader() {
 
   return (
     <div className="flex items-center justify-between gap-3">
-      <div className="min-w-0 space-y-1">
-        <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-primary ring-1 ring-primary/20">
-          🚔 หน่วยสืบสวน
-        </span>
-        <h1 className="truncate text-xl font-semibold tracking-tight">
-          {now ? greetingForNow() : "สวัสดี"}, {name}
-        </h1>
-        <p className="text-sm text-muted-foreground">{now ? formatThaiDateLong(now) : " "}</p>
+      <div className="flex min-w-0 items-center gap-3">
+        <Image
+          src="/logo.png"
+          alt="Investigator"
+          width={44}
+          height={44}
+          className="size-11 shrink-0 rounded-xl object-cover ring-1 ring-primary/30"
+          priority
+        />
+        <div className="min-w-0 space-y-0.5">
+          <h1 className="truncate text-xl font-semibold tracking-tight">
+            {now ? greetingForNow() : "สวัสดี"}, {name}
+          </h1>
+          <p className="text-sm text-muted-foreground">{now ? formatThaiDateLong(now) : " "}</p>
+        </div>
       </div>
 
       <div className="flex shrink-0 items-center gap-2">
