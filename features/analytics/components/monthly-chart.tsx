@@ -37,8 +37,8 @@ export function MonthlyChart() {
             <AreaChart data={data} margin={{ top: 4, right: 4, left: 4, bottom: 0 }}>
               <defs>
                 <linearGradient id="monthlyFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#2563EB" stopOpacity={0.35} />
-                  <stop offset="100%" stopColor="#2563EB" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#DC2626" stopOpacity={0.35} />
+                  <stop offset="100%" stopColor="#DC2626" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid vertical={false} stroke="rgba(255,255,255,0.06)" />
@@ -51,7 +51,7 @@ export function MonthlyChart() {
               />
               <Tooltip
                 contentStyle={{
-                  background: "#1C1E22",
+                  background: "#19191B",
                   border: "1px solid rgba(255,255,255,0.08)",
                   borderRadius: 12,
                   fontSize: 12,
@@ -64,7 +64,7 @@ export function MonthlyChart() {
                 type="monotone"
                 dataKey="completed"
                 name="งานที่เสร็จ"
-                stroke="#2563EB"
+                stroke="#DC2626"
                 strokeWidth={2}
                 fill="url(#monthlyFill)"
               />

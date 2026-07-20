@@ -3,7 +3,7 @@
   --fc-page-bg-color: transparent;
   --fc-neutral-bg-color: rgba(255, 255, 255, 0.04);
   --fc-list-event-hover-bg-color: rgba(255, 255, 255, 0.05);
-  --fc-today-bg-color: rgba(37, 99, 235, 0.1);
+  --fc-today-bg-color: rgba(220, 38, 38, 0.12);
   --fc-event-border-color: transparent;
   --fc-small-font-size: 0.75rem;
   color: #ffffff;
@@ -35,7 +35,7 @@
 }
 
 .fc-wrap .fc-day-today .fc-daygrid-day-frame {
-  background: rgba(37, 99, 235, 0.1);
+  background: rgba(220, 38, 38, 0.12);
 }
 
 .fc-wrap .fc-event {
@@ -85,7 +85,7 @@
 
 .fc-wrap .fc-button-primary:not(:disabled).fc-button-active,
 .fc-wrap .fc-button-primary:not(:disabled):active {
-  background: #2563eb;
+  background: #dc2626;
   color: #fff;
 }
 

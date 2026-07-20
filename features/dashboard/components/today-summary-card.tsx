@@ -31,7 +31,7 @@ export function TodaySummaryCard() {
   const urgentCount = urgentIds.size + custodyCases.length;
 
   const stats = [
-    { icon: ListChecks, label: "งานวันนี้", value: `${todayTasks.length} งาน`, tint: "#2563EB" },
+    { icon: ListChecks, label: "งานวันนี้", value: `${todayTasks.length} งาน`, tint: "#94A3B8" },
     { icon: CalendarClock, label: "นัดหมาย", value: `${todayEvents.length} รายการ`, tint: "#F59E0B" },
     { icon: Flame, label: "งานด่วน", value: `${urgentCount} งาน`, tint: "#EF4444" },
     { icon: CheckCircle2, label: "ทำเสร็จแล้ว", value: `${percent}%`, tint: "#22C55E" },

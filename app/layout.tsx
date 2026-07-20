@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Investigator",
+  title: "🚔 Investigator",
   description: "Second Brain สำหรับพนักงานสอบสวน",
   manifest: "/manifest.json",
   appleWebApp: {
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#111315",
+  themeColor: "#0d0d0e",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,

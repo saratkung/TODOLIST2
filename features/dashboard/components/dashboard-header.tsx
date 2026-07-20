@@ -51,7 +51,10 @@ export function DashboardHeader() {
 
   return (
     <div className="flex items-center justify-between gap-3">
-      <div className="min-w-0 space-y-0.5">
+      <div className="min-w-0 space-y-1">
+        <span className="inline-flex items-center gap-1 rounded-full bg-primary/15 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-primary ring-1 ring-primary/20">
+          🚔 หน่วยสืบสวน
+        </span>
         <h1 className="truncate text-xl font-semibold tracking-tight">
           {now ? greetingForNow() : "สวัสดี"}, {name}
         </h1>

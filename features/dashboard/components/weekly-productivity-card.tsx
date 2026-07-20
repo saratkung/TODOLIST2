@@ -53,7 +53,7 @@ export function WeeklyProductivityCard() {
               <Tooltip
                 cursor={{ fill: "rgba(255,255,255,0.04)" }}
                 contentStyle={{
-                  background: "#1C1E22",
+                  background: "#19191B",
                   border: "1px solid rgba(255,255,255,0.08)",
                   borderRadius: 12,
                   fontSize: 12,
@@ -61,7 +61,7 @@ export function WeeklyProductivityCard() {
                 }}
                 labelStyle={{ color: "#A1A1AA" }}
               />
-              <Bar dataKey="completed" name="งานที่เสร็จ" fill="#2563EB" radius={[6, 6, 6, 6]} />
+              <Bar dataKey="completed" name="งานที่เสร็จ" fill="#DC2626" radius={[6, 6, 6, 6]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
