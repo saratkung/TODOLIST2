@@ -30,7 +30,6 @@ export function DashboardHeader() {
   const now = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   const name = useProfileStore((s) => s.name);
-  const rank = useProfileStore((s) => s.rank);
   const tasks = useTaskStore((s) => s.items);
   const cases = useCaseStore((s) => s.items);
 
@@ -54,7 +53,7 @@ export function DashboardHeader() {
     <div className="flex items-center justify-between gap-3">
       <div className="min-w-0 space-y-0.5">
         <h1 className="truncate text-xl font-semibold tracking-tight">
-          {now ? greetingForNow() : "สวัสดี"}, {rank}
+          {now ? greetingForNow() : "สวัสดี"}, {name}
         </h1>
         <p className="text-sm text-muted-foreground">{now ? formatThaiDateLong(now) : " "}</p>
       </div>

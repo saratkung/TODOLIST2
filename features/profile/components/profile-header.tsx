@@ -11,7 +11,6 @@ import { useProfileStore } from "@/store/profile-store";
 
 export function ProfileHeader() {
   const name = useProfileStore((s) => s.name);
-  const rank = useProfileStore((s) => s.rank);
   const email = useProfileStore((s) => s.email);
   const position = useProfileStore((s) => s.position);
   const department = useProfileStore((s) => s.department);
@@ -45,9 +44,7 @@ export function ProfileHeader() {
       </button>
 
       <div className="space-y-0.5">
-        <p className="text-lg font-semibold">
-          {rank} {name}
-        </p>
+        <p className="text-lg font-semibold">{name}</p>
         <p className="text-sm text-muted-foreground">{email}</p>
         <p className="text-xs text-muted-foreground">
           {position} · {department}
