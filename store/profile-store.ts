@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useSyncStore } from "@/store/sync-store";
 
 export interface ProfileState {
   firstName: string;
@@ -52,17 +53,26 @@ export const useProfileStore = create<ProfileState>()(
       memberSince: "2024-01-15T00:00:00.000Z",
       notificationsEnabled: true,
 
-      setProfile: (patch) =>
+      setProfile: (patch) => {
         set((state) => {
           const next = { ...state, ...patch };
           if (patch.firstName !== undefined || patch.lastName !== undefined) {
             next.name = fullName(next.firstName, next.lastName);
           }
           return next;
-        }),
+        });
+        useSyncStore.getState().notifySaved();
+      },
 
-      setAvatar: (url) => set({ avatarUrl: url }),
-      setNotificationsEnabled: (enabled) => set({ notificationsEnabled: enabled }),
+      setAvatar: (url) => {
+        set({ avatarUrl: url });
+        useSyncStore.getState().notifySaved();
+      },
+
+      setNotificationsEnabled: (enabled) => {
+        set({ notificationsEnabled: enabled });
+        useSyncStore.getState().notifySaved();
+      },
     }),
     { name: "investigator:profile" }
   )

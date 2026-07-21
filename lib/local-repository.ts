@@ -13,9 +13,14 @@ function readAll<T>(key: string): T[] {
   }
 }
 
+/** Throws a normalized, user-facing error if the write fails (e.g. storage quota exceeded, private-browsing restrictions). */
 function writeAll<T>(key: string, items: T[]) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(key, JSON.stringify(items));
+  try {
+    window.localStorage.setItem(key, JSON.stringify(items));
+  } catch {
+    throw new Error("ไม่สามารถบันทึกข้อมูลได้ พื้นที่จัดเก็บในเครื่องอาจเต็มหรือถูกจำกัดการเข้าถึง");
+  }
 }
 
 /**

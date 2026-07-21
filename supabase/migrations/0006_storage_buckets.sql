@@ -1,0 +1,90 @@
+-- Storage bucket policy reference for Cloud Backup & Auto Sync.
+--
+-- Same status as every migration before it — documentation only, not
+-- applied yet, since there's no real Supabase project connected (see
+-- store/sync-store.ts and services/backup-service.ts, which are built
+-- entirely against localStorage for now).
+--
+-- Buckets are created via the Supabase dashboard or CLI
+-- (`supabase storage create <name>`), not SQL DDL — this file exists so
+-- the RLS policies for each bucket are ready to apply the moment the
+-- buckets themselves exist.
+--
+-- Per the "no binary files in the database" rule: case_attachments.url
+-- (0004_case_workspace.sql) should hold a Storage object path or public
+-- URL, never the file bytes themselves.
+
+-- ── avatars ──────────────────────────────────────────────────────────
+-- Path convention: avatars/{user_id}/profile.jpg
+-- Public read (profile photos are shown to other users), owner-only write.
+--
+-- create policy "Avatar images are publicly accessible"
+--   on storage.objects for select
+--   using (bucket_id = 'avatars');
+--
+-- create policy "Users can upload their own avatar"
+--   on storage.objects for insert
+--   with check (
+--     bucket_id = 'avatars'
+--     and (storage.foldername(name))[1] = auth.uid()::text
+--   );
+--
+-- create policy "Users can replace their own avatar"
+--   on storage.objects for update
+--   using (
+--     bucket_id = 'avatars'
+--     and (storage.foldername(name))[1] = auth.uid()::text
+--   );
+
+-- ── case-files ───────────────────────────────────────────────────────
+-- Path convention: case-files/{user_id}/{case_id}/{attachment_id}-{filename}
+-- Private bucket — only the owning investigator can read/write their
+-- own case attachments (PDFs, Word/Excel docs, photos of evidence, etc).
+--
+-- create policy "Owners can read their own case files"
+--   on storage.objects for select
+--   using (
+--     bucket_id = 'case-files'
+--     and (storage.foldername(name))[1] = auth.uid()::text
+--   );
+--
+-- create policy "Owners can upload their own case files"
+--   on storage.objects for insert
+--   with check (
+--     bucket_id = 'case-files'
+--     and (storage.foldername(name))[1] = auth.uid()::text
+--   );
+--
+-- create policy "Owners can delete their own case files"
+--   on storage.objects for delete
+--   using (
+--     bucket_id = 'case-files'
+--     and (storage.foldername(name))[1] = auth.uid()::text
+--   );
+
+-- ── documents ────────────────────────────────────────────────────────
+-- Path convention: documents/{user_id}/{filename}
+-- General-purpose private bucket for exported backups, generated
+-- reports, or other user documents not tied to a specific case.
+-- Same owner-only read/write/delete shape as case-files above.
+--
+-- create policy "Owners can read their own documents"
+--   on storage.objects for select
+--   using (
+--     bucket_id = 'documents'
+--     and (storage.foldername(name))[1] = auth.uid()::text
+--   );
+--
+-- create policy "Owners can upload their own documents"
+--   on storage.objects for insert
+--   with check (
+--     bucket_id = 'documents'
+--     and (storage.foldername(name))[1] = auth.uid()::text
+--   );
+--
+-- create policy "Owners can delete their own documents"
+--   on storage.objects for delete
+--   using (
+--     bucket_id = 'documents'
+--     and (storage.foldername(name))[1] = auth.uid()::text
+--   );

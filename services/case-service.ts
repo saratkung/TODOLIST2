@@ -56,6 +56,7 @@ export const caseService = {
   },
   update: caseRepo.update,
   remove: caseRepo.remove,
+  replaceAll: caseRepo.replaceAll,
 
   async create(input: CaseInput): Promise<CaseFile> {
     return caseRepo.create(input);
@@ -66,6 +67,7 @@ export const caseService = {
     seedIfEmpty: checklistRepo.seedIfEmpty,
     update: checklistRepo.update,
     remove: checklistRepo.remove,
+    replaceAll: checklistRepo.replaceAll,
 
     async create(input: ChecklistItemInput): Promise<ChecklistItem> {
       const items = await checklistRepo.list();
@@ -97,6 +99,7 @@ export const caseService = {
     seedIfEmpty: timelineRepo.seedIfEmpty,
     update: timelineRepo.update,
     remove: timelineRepo.remove,
+    replaceAll: timelineRepo.replaceAll,
 
     async create(input: TimelineEventInput): Promise<TimelineEvent> {
       const items = await timelineRepo.list();
@@ -109,6 +112,7 @@ export const caseService = {
     list: caseNoteRepo.list,
     update: caseNoteRepo.update,
     remove: caseNoteRepo.remove,
+    replaceAll: caseNoteRepo.replaceAll,
     create: (input: CaseNoteInput) => caseNoteRepo.create(input),
   },
 
@@ -116,6 +120,7 @@ export const caseService = {
     list: attachmentRepo.list,
     update: attachmentRepo.update,
     remove: attachmentRepo.remove,
+    replaceAll: attachmentRepo.replaceAll,
     create: (input: AttachmentInput) => attachmentRepo.create(input),
   },
 };

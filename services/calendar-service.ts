@@ -9,4 +9,5 @@ export const calendarService = {
   create: repo.create,
   update: repo.update,
   remove: repo.remove,
+  replaceAll: repo.replaceAll,
 };

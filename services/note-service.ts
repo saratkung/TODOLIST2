@@ -8,6 +8,7 @@ export const noteService = {
   seedIfEmpty: repo.seedIfEmpty,
   update: repo.update,
   remove: repo.remove,
+  replaceAll: repo.replaceAll,
 
   async create(input: NoteInput): Promise<Note> {
     return repo.create({ ...input, pinned: false, favorite: false });

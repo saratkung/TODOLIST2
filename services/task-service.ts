@@ -8,6 +8,7 @@ export const taskService = {
   seedIfEmpty: repo.seedIfEmpty,
   update: repo.update,
   remove: repo.remove,
+  replaceAll: repo.replaceAll,
 
   async create(input: TaskInput): Promise<Task> {
     const items = await repo.list();
