@@ -6,7 +6,13 @@ import { GlobalDialogs } from "@/components/global-dialogs";
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative mx-auto flex min-h-svh w-full max-w-2xl flex-1 flex-col">
-      <main className="flex-1 px-4 pt-6" style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 104px)" }}>
+      <main
+        className="flex-1 px-4"
+        style={{
+          paddingTop: "calc(env(safe-area-inset-top) + 1.75rem)",
+          paddingBottom: "calc(env(safe-area-inset-bottom) + 104px)",
+        }}
+      >
         <PageTransition>{children}</PageTransition>
       </main>
       <Fab />

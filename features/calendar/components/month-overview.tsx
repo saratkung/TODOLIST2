@@ -7,6 +7,7 @@ import { MonthGrid } from "@/features/calendar/components/month-grid";
 import { AgendaList } from "@/features/calendar/components/agenda-list";
 import { AgendaSkeleton } from "@/features/calendar/components/agenda-skeleton";
 import { EventDetailsSheet } from "@/features/calendar/components/event-details-sheet";
+import { GoogleSyncButton } from "@/features/calendar/components/google-sync-button";
 import { useCalendarStore } from "@/store/calendar-store";
 import { useUiStore } from "@/store/ui-store";
 import { formatThaiDateLong } from "@/utils/date";
@@ -45,6 +46,7 @@ export function MonthOverview() {
           events={events}
           onSelectDate={setSelectedDate}
           onChangeMonth={setMonth}
+          headerAction={<GoogleSyncButton />}
         />
       </div>
 

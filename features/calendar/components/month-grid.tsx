@@ -27,6 +27,7 @@ interface MonthGridProps {
   events: CalendarEvent[];
   onSelectDate: (date: Date) => void;
   onChangeMonth: (date: Date) => void;
+  headerAction?: React.ReactNode;
 }
 
 export function MonthGrid({
@@ -35,6 +36,7 @@ export function MonthGrid({
   events,
   onSelectDate,
   onChangeMonth,
+  headerAction,
 }: MonthGridProps) {
   const monthStart = startOfMonth(month);
   const monthEnd = endOfMonth(month);
@@ -63,13 +65,16 @@ export function MonthGrid({
         <p className="text-sm font-semibold">
           {format(month, "MMMM", { locale: th })} {month.getFullYear() + 543}
         </p>
-        <button
-          onClick={() => onChangeMonth(addMonths(month, 1))}
-          aria-label="เดือนถัดไป"
-          className="flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/5"
-        >
-          <ChevronRight className="size-4" />
-        </button>
+        <div className="flex items-center gap-0.5">
+          <button
+            onClick={() => onChangeMonth(addMonths(month, 1))}
+            aria-label="เดือนถัดไป"
+            className="flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/5"
+          >
+            <ChevronRight className="size-4" />
+          </button>
+          {headerAction}
+        </div>
       </div>
 
       <div className="grid grid-cols-7 gap-y-1 text-center">

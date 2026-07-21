@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { RefreshCw } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useGoogleCalendarStore } from "@/store/google-calendar-store";
 import { useGoogleSyncNow } from "@/features/calendar/hooks/use-google-sync-now";
 import { cn } from "@/lib/utils";
@@ -21,21 +20,27 @@ export function GoogleSyncButton() {
 
   if (!isConnected) {
     return (
-      <Button
-        variant="outline"
-        size="sm"
+      <button
         onClick={() => router.push("/profile/google-calendar")}
+        aria-label="เชื่อมต่อ Google Calendar"
+        title="เชื่อมต่อ Google Calendar"
         disabled={status === "checking"}
+        className="flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/5 disabled:opacity-50"
       >
-        <RefreshCw className="size-3.5" /> เชื่อมต่อ Google Calendar
-      </Button>
+        <RefreshCw className="size-4" />
+      </button>
     );
   }
 
   return (
-    <Button variant="outline" size="sm" onClick={syncNow} disabled={status === "syncing"}>
-      <RefreshCw className={cn("size-3.5", status === "syncing" && "animate-spin")} />
-      {status === "syncing" ? "กำลังซิงก์..." : "Sync"}
-    </Button>
+    <button
+      onClick={syncNow}
+      disabled={status === "syncing"}
+      aria-label="Sync กับ Google Calendar"
+      title="Sync กับ Google Calendar"
+      className="flex size-8 items-center justify-center rounded-full text-primary transition-colors hover:bg-white/5 disabled:opacity-50"
+    >
+      <RefreshCw className={cn("size-4", status === "syncing" && "animate-spin")} />
+    </button>
   );
 }
