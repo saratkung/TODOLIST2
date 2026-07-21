@@ -16,6 +16,7 @@ import { useCalendarStore } from "@/store/calendar-store";
 import { EVENT_CATEGORY_META } from "@/constants/calendar";
 import { REMINDER_META } from "@/constants/task";
 import { formatThaiDate, formatThaiTime } from "@/utils/date";
+import { googleCalendarSyncService, CalendarSyncError } from "@/services/google-calendar-sync-service";
 import type { CalendarEvent, CalendarEventInput } from "@/types/calendar";
 
 interface EventDetailsSheetProps {
@@ -32,12 +33,29 @@ export function EventDetailsSheet({ event, onClose }: EventDetailsSheetProps) {
   if (!event) return null;
   const meta = EVENT_CATEGORY_META[event.category];
 
-  async function handleUpdate(input: CalendarEventInput) {
+  async function handleUpdate(input: CalendarEventInput, syncToGoogle: boolean) {
     if (!event) return;
     await editEvent(event.id, input);
     toast.success("บันทึกการเปลี่ยนแปลงแล้ว");
     setEditing(false);
     onClose();
+
+    if (syncToGoogle) {
+      try {
+        const merged: CalendarEvent = { ...event, ...input };
+        if (event.googleEventId) {
+          await googleCalendarSyncService.updateEvent(event.googleEventId, merged);
+          await editEvent(event.id, { syncStatus: "synced", lastSyncedAt: new Date().toISOString() });
+        } else {
+          const { googleEventId } = await googleCalendarSyncService.createEvent(merged);
+          await editEvent(event.id, { googleEventId, syncStatus: "synced", lastSyncedAt: new Date().toISOString() });
+        }
+        toast.success("ซิงก์ไปยัง Google Calendar แล้ว");
+      } catch (error) {
+        const message = error instanceof CalendarSyncError ? error.message : "ซิงก์ไปยัง Google Calendar ไม่สำเร็จ";
+        toast.error(message);
+      }
+    }
   }
 
   async function handleDelete() {
@@ -75,6 +93,7 @@ export function EventDetailsSheet({ event, onClose }: EventDetailsSheetProps) {
                 notes: event.notes,
                 location: event.location,
                 reminder: event.reminder,
+                syncToGoogle: Boolean(event.googleEventId),
               }}
               onSubmit={handleUpdate}
             />

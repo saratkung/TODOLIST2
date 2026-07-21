@@ -1,6 +1,7 @@
 "use client";
 
 import { useClientNow } from "@/hooks/use-client-now";
+import { GoogleEventBadge } from "@/features/calendar/components/google-event-badge";
 import { EVENT_CATEGORY_META } from "@/constants/calendar";
 import { formatThaiTime } from "@/utils/date";
 import { cn } from "@/lib/utils";
@@ -32,7 +33,10 @@ export function EventCard({ event, onClick }: EventCardProps) {
       </div>
       <span className="size-2.5 shrink-0 rounded-full" style={{ backgroundColor: meta.color }} />
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium">{event.title}</p>
+        <p className="flex items-center gap-1.5 truncate text-sm font-medium">
+          <span className="truncate">{event.title}</span>
+          {event.googleEventId && <GoogleEventBadge />}
+        </p>
         <p className="truncate text-xs" style={{ color: meta.color }}>
           {meta.label}
         </p>

@@ -10,6 +10,7 @@ import {
 import { useUiStore } from "@/store/ui-store";
 import { useCalendarStore } from "@/store/calendar-store";
 import { EventForm, type EventFormValues } from "@/features/calendar/components/event-form";
+import { googleCalendarSyncService, CalendarSyncError } from "@/services/google-calendar-sync-service";
 import type { CalendarEventInput } from "@/types/calendar";
 
 export function CreateEventDialog() {
@@ -17,11 +18,27 @@ export function CreateEventDialog() {
   const closeCreateDialog = useUiStore((s) => s.closeCreateDialog);
   const defaults = useUiStore((s) => s.createDialogDefaults);
   const addEvent = useCalendarStore((s) => s.add);
+  const editEvent = useCalendarStore((s) => s.edit);
 
-  async function handleSubmit(input: CalendarEventInput) {
-    await addEvent(input);
+  async function handleSubmit(input: CalendarEventInput, syncToGoogle: boolean) {
+    const created = await addEvent(input);
     toast.success("สร้างนัดหมายเรียบร้อยแล้ว");
     closeCreateDialog();
+
+    if (syncToGoogle) {
+      try {
+        const { googleEventId } = await googleCalendarSyncService.createEvent(created);
+        await editEvent(created.id, {
+          googleEventId,
+          syncStatus: "synced",
+          lastSyncedAt: new Date().toISOString(),
+        });
+        toast.success("ซิงก์ไปยัง Google Calendar แล้ว");
+      } catch (error) {
+        const message = error instanceof CalendarSyncError ? error.message : "ซิงก์ไปยัง Google Calendar ไม่สำเร็จ";
+        toast.error(message);
+      }
+    }
   }
 
   return (

@@ -18,6 +18,7 @@ import {
 import { ReminderSelector } from "@/features/calendar/components/reminder-selector";
 import { EVENT_CATEGORY_META, EVENT_CATEGORY_ORDER } from "@/constants/calendar";
 import { useCaseStore } from "@/store/case-store";
+import { useGoogleCalendarStore } from "@/store/google-calendar-store";
 import type { CalendarEventInput } from "@/types/calendar";
 
 const eventSchema = z.object({
@@ -30,18 +31,21 @@ const eventSchema = z.object({
   location: z.string().optional(),
   notes: z.string().optional(),
   reminder: z.string().optional(),
+  syncToGoogle: z.boolean().optional(),
 });
 
 export type EventFormValues = z.infer<typeof eventSchema>;
 
 interface EventFormProps {
   defaultValues?: Partial<EventFormValues>;
-  onSubmit: (input: CalendarEventInput) => void;
+  onSubmit: (input: CalendarEventInput, syncToGoogle: boolean) => void;
   submitLabel?: string;
 }
 
 export function EventForm({ defaultValues, onSubmit, submitLabel = "สร้างนัดหมาย" }: EventFormProps) {
   const cases = useCaseStore((s) => s.items);
+  const googleStatus = useGoogleCalendarStore((s) => s.status);
+  const googleConnected = googleStatus === "connected" || googleStatus === "syncing";
   const {
     register,
     handleSubmit,
@@ -53,6 +57,7 @@ export function EventForm({ defaultValues, onSubmit, submitLabel = "สร้า
     defaultValues: {
       category: "appointment",
       allDay: false,
+      syncToGoogle: false,
       ...defaultValues,
     },
   });
@@ -61,19 +66,23 @@ export function EventForm({ defaultValues, onSubmit, submitLabel = "สร้า
   const allDay = watch("allDay");
   const caseId = watch("caseId");
   const reminder = watch("reminder");
+  const syncToGoogle = watch("syncToGoogle");
 
   function submit(values: EventFormValues) {
-    onSubmit({
-      title: values.title,
-      start: new Date(values.start).toISOString(),
-      end: values.end ? new Date(values.end).toISOString() : undefined,
-      allDay: values.allDay,
-      category: values.category,
-      caseId: values.caseId || undefined,
-      location: values.location || undefined,
-      notes: values.notes || undefined,
-      reminder: (values.reminder as CalendarEventInput["reminder"]) || undefined,
-    });
+    onSubmit(
+      {
+        title: values.title,
+        start: new Date(values.start).toISOString(),
+        end: values.end ? new Date(values.end).toISOString() : undefined,
+        allDay: values.allDay,
+        category: values.category,
+        caseId: values.caseId || undefined,
+        location: values.location || undefined,
+        notes: values.notes || undefined,
+        reminder: (values.reminder as CalendarEventInput["reminder"]) || undefined,
+      },
+      Boolean(values.syncToGoogle) && googleConnected
+    );
   }
 
   return (
@@ -162,6 +171,25 @@ export function EventForm({ defaultValues, onSubmit, submitLabel = "สร้า
         value={reminder as CalendarEventInput["reminder"]}
         onChange={(v) => setValue("reminder", v)}
       />
+
+      <div className="space-y-1 rounded-xl bg-white/5 px-3 py-2.5">
+        <div className="flex items-center justify-between">
+          <Label htmlFor="syncGoogle" className="text-sm font-normal">
+            Sync ไปยัง Google Calendar
+          </Label>
+          <Switch
+            id="syncGoogle"
+            checked={Boolean(syncToGoogle) && googleConnected}
+            onCheckedChange={(v) => setValue("syncToGoogle", v)}
+            disabled={!googleConnected}
+          />
+        </div>
+        <p className="text-xs text-muted-foreground">
+          {googleConnected
+            ? "จะสร้าง/อัปเดตนัดหมายนี้ใน Google Calendar ของคุณด้วย"
+            : "เชื่อมต่อ Google Calendar ก่อนเพื่อใช้ฟีเจอร์นี้ (Profile → Google Calendar)"}
+        </p>
+      </div>
 
       <Button type="submit" className="w-full">
         {submitLabel}

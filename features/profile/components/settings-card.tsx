@@ -1,19 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 import {
   Moon,
   Bell,
-  RefreshCw,
   DatabaseBackup,
-  Download,
-  Upload,
+  CalendarSync,
+  ChevronRight,
   Trash2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -28,7 +27,6 @@ interface SettingRow {
   icon: typeof Moon;
   label: string;
   description: string;
-  comingSoon?: boolean;
   control?: React.ReactNode;
 }
 
@@ -58,30 +56,6 @@ export function SettingsCard() {
       description: "แอปนี้ออกแบบมาสำหรับธีมมืดโดยเฉพาะ",
       control: <Switch checked disabled />,
     },
-    {
-      icon: RefreshCw,
-      label: "ซิงค์ข้อมูล",
-      description: "เชื่อมต่อ Supabase สำหรับหลายอุปกรณ์",
-      comingSoon: true,
-    },
-    {
-      icon: DatabaseBackup,
-      label: "สำรองข้อมูลอัตโนมัติ",
-      description: "สำรองข้อมูลขึ้นระบบคลาวด์",
-      comingSoon: true,
-    },
-    {
-      icon: Download,
-      label: "Export ข้อมูล",
-      description: "ส่งออกเป็น PDF / Excel / CSV",
-      comingSoon: true,
-    },
-    {
-      icon: Upload,
-      label: "Import ข้อมูล",
-      description: "นำเข้าข้อมูลจากไฟล์สำรอง",
-      comingSoon: true,
-    },
   ];
 
   function handleResetData() {
@@ -101,19 +75,42 @@ export function SettingsCard() {
                 <row.icon className="size-4" strokeWidth={1.75} />
               </span>
               <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
-                  <p className="text-sm font-medium">{row.label}</p>
-                  {row.comingSoon && (
-                    <Badge className="border-0 bg-white/10 text-[10px] text-muted-foreground">
-                      เร็วๆ นี้
-                    </Badge>
-                  )}
-                </div>
+                <p className="text-sm font-medium">{row.label}</p>
                 <p className="text-xs text-muted-foreground">{row.description}</p>
               </div>
               {row.control}
             </div>
           ))}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="p-0">
+          <Link href="/profile/backup" className="flex items-center gap-3 px-4 py-3.5">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+              <DatabaseBackup className="size-4" strokeWidth={1.75} />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium">Backup & Restore</p>
+              <p className="text-xs text-muted-foreground">สำรอง กู้คืน และดูสถานะการบันทึกข้อมูล</p>
+            </div>
+            <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+          </Link>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="p-0">
+          <Link href="/profile/google-calendar" className="flex items-center gap-3 px-4 py-3.5">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+              <CalendarSync className="size-4" strokeWidth={1.75} />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium">Google Calendar</p>
+              <p className="text-xs text-muted-foreground">เชื่อมต่อและซิงก์นัดหมายกับ Google Calendar</p>
+            </div>
+            <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+          </Link>
         </CardContent>
       </Card>
 

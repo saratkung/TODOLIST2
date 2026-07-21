@@ -7,6 +7,7 @@ import { MonthOverview } from "@/features/calendar/components/month-overview";
 import { FullCalendarView } from "@/features/calendar/components/full-calendar-view";
 import { CalendarTimelineView } from "@/features/calendar/components/calendar-timeline-view";
 import { EventDetailsSheet } from "@/features/calendar/components/event-details-sheet";
+import { GoogleSyncButton } from "@/features/calendar/components/google-sync-button";
 import { EVENT_CATEGORY_META, EVENT_CATEGORY_ORDER } from "@/constants/calendar";
 import type { CalendarEvent } from "@/types/calendar";
 
@@ -15,7 +16,11 @@ export default function CalendarPage() {
 
   return (
     <div className="space-y-5">
-      <PageHeader title="Calendar" description="ปฏิทินนัดหมายและกำหนดการ" />
+      <PageHeader
+        title="Calendar"
+        description="ปฏิทินนัดหมายและกำหนดการ"
+        action={<GoogleSyncButton />}
+      />
 
       <div className="flex flex-wrap gap-x-3 gap-y-1.5">
         {EVENT_CATEGORY_ORDER.map((key) => {
